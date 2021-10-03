@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{b85c8dde-f93b-46a3-9ec8-1621015d9134}">
+		<property name="assetPath">
+			<value>SFX/kill_count_reached.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>4.1250113378684805</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{c6456706-93b8-4c84-a773-a19e2c2bcfe2}</destination>
+		</relationship>
+	</object>
+</objects>

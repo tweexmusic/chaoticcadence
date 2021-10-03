@@ -1,0 +1,23 @@
+{15432e60-bddc-4eaf-af11-d30f8b79aa4a} bank:/Master
+{8d5e0eb4-cca7-02ed-2958-59f17a8aacd2} bank:/Master.strings
+{887a8d4c-ab46-4cda-a90b-ae2e9849a8f1} bank:/Music
+{15769295-30a1-41e7-84ba-00e6245d2517} bank:/SFX
+{52592050-6e82-48af-b2d1-9c1e7446f648} bus:/
+{5ffbae37-a8f3-42bf-ab63-7b48c1c287fa} bus:/Reverb
+{c0aff57c-e79a-44c5-8f80-858495a897c9} event:/New Event
+{68be49b4-8681-4ef1-8e00-d5b25e67b13a} event:/music/level1_music
+{03e8cc62-bac7-415e-ae2b-05c9cfe4d423} event:/music/level2_music
+{47cafc03-ab3d-435d-a415-6383415ebbd6} event:/music/level3_music
+{e7b6d285-0af8-4935-b67a-5ba6758d55bd} event:/music/menu_music
+{add9afcd-dc58-4093-be65-45e9c127f7ac} event:/music/neon_city_boss_music
+{44fe9566-861f-486d-bc66-294a9f3a5bda} event:/music/test_music
+{e2223350-2d16-4d19-8fda-a4d91a6fc721} event:/sfx/enemy_death
+{5e04e4e0-f5e3-4cd8-890b-d5c4a59341a5} event:/sfx/enemy_shake
+{afb2a0d3-ddea-49b8-bdfe-99dc184f6189} event:/sfx/enemy_spawn
+{ea93707b-27ff-455f-8bb0-43a7c5002e42} event:/sfx/enemy_teleport
+{168fb440-a004-426a-bf50-70e084b0290d} event:/sfx/game_counter
+{fd0b086e-232f-49b3-b6d2-ad3c0a286c13} event:/sfx/player_death
+{7c67b4ee-45be-4041-bb12-d08eaf3d8079} event:/sfx/player_kill_count_achieved
+{8562ad8a-9815-41ec-ac63-14506d1a050e} event:/sfx/player_shoot
+{6a13b9fd-9a2f-4ce8-b152-54cee1551bb4} event:/sfx/player_take_damage
+{6b185e68-a897-4de6-b531-fc66291f26b4} parameter:/Start Counter
