@@ -236,7 +236,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4585099423525338722, guid: 8c32360d418d340ba9ab080120daab5d, type: 3}
       propertyPath: m_Text
-      value: Chaotic Candence
+      value: Chaotic Cadence
       objectReference: {fileID: 0}
     - target: {fileID: 4585099423525338722, guid: 8c32360d418d340ba9ab080120daab5d, type: 3}
       propertyPath: m_Color.b
