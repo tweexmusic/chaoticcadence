@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,10 +6,12 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     Rigidbody2D rb;
+    Transform playerTransform;
 
     public PlayerProjectile playerProjectile;
     public PlayerHealth playerHealth;
     public ParticleSystem playerDeathParticle;
+    public ParticleSystem godModeStartParticle;
 
     [SerializeField]
     float horizontalMovementSpeed;
@@ -24,7 +27,11 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerSpriteRenderer = GetComponent<SpriteRenderer>();
+        playerSpriteRenderer.color = new Color(255, 0, 226);
+        EnemyManager.OnLevelGoalReached += OnLevelGoalReached;
     }
+
+    
 
     void Update()
     {
@@ -33,15 +40,25 @@ public class PlayerMovement : MonoBehaviour
         PlayerShoot();
         PlayerDeath();
 
-        if (EnemyManager.enemiesKilled == 0 && EnemyManager.goalReached)
-            InitiateGodMode();
+        //if (EnemyManager.enemiesKillGoal == 0 && EnemyManager.goalReached)
+            //InitiateGodMode();
     }
 
     private void OnDestroy()
     {
         StopAllCoroutines();
+        EnemyManager.OnLevelGoalReached -= OnLevelGoalReached;
+
     }
 
+
+    private void OnLevelGoalReached()
+    {
+        Debug.Log("COLOR CHANGE!");
+        playerSpriteRenderer.color = ColorSetter.instance.GetGodModeColor(true);
+        Instantiate(godModeStartParticle, gameObject.transform.position, Quaternion.identity);
+        gameObject.transform.localScale = new Vector2 (3, 3);
+    }
 
     private void MoveHorizontal()
     {
@@ -96,8 +113,5 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void InitiateGodMode()
-    {
-        playerSpriteRenderer.color = new Color(239, 243, 0, 1);
-    }
+
 }

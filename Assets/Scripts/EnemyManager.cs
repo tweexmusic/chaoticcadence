@@ -23,6 +23,10 @@ public class EnemyManager : MonoBehaviour
     private bool readyToMove = false;
     public static bool goalReached = false;
     private bool goalSet = false;
+    private int eventCounter;
+
+    public delegate void LevelGoalReached();
+    public static event LevelGoalReached OnLevelGoalReached;
 
     // Start is called before the first frame update
     void Awake()
@@ -30,6 +34,8 @@ public class EnemyManager : MonoBehaviour
         enemiesKillGoal = 0;
         goalSet = false;
         goalReached = false;
+        eventCounter = 1;
+
         enemySpawnAudio = FindObjectOfType<FMODUnity.StudioEventEmitter>();
         MidiManager.OnNoteChange += OnNoteChange;
         MidiManagerBeat.OnBeatChange += OnBeatChange;
@@ -69,6 +75,13 @@ public class EnemyManager : MonoBehaviour
     void Update()
     {
         UpdateEnemiesList();
+
+        if (goalReached && eventCounter > 0)
+        {
+            OnLevelGoalReached?.Invoke();
+            Debug.Log("EVENT");
+            eventCounter--;
+        }
     }
 
     private void OnDestroy()
@@ -98,6 +111,7 @@ public class EnemyManager : MonoBehaviour
         else
         {
             goalReached = true;
+            Debug.Log(goalReached);
             FMODUnity.RuntimeManager.PlayOneShot("event:/sfx/player_kill_count_achieved");
         }
         enemiesToKill.text = enemiesKillGoal.ToString();

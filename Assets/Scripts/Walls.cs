@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,18 +11,21 @@ public class Walls : MonoBehaviour
     private void Awake()
     {
         wallSpriteRender = GetComponent<SpriteRenderer>();
+        EnemyManager.OnLevelGoalReached += OnLevelGoalReached;
     }
 
-    private void Update()
+    private void Start()
     {
-        if (!EnemyManager.goalReached)
-        {
-            //SetWallColor(ColorSetter.instance.redValue, ColorSetter.instance.greenValue, ColorSetter.instance.blueValue);
-        }
+        wallSpriteRender.color = ColorSetter.instance.GetBaseColor;
     }
 
-    public void SetWallColor(int red, int green, int blue)
+    private void OnDestroy()
     {
-        wallSpriteRender.color = new Color(red, green, blue);
+        EnemyManager.OnLevelGoalReached -= OnLevelGoalReached;
+    }
+
+    private void OnLevelGoalReached()
+    {
+        wallSpriteRender.color = ColorSetter.instance.GetGodModeColor(true);
     }
 }

@@ -5,9 +5,12 @@ using UnityEngine;
 
 public class BeatPulse : MonoBehaviour
 {
+    [Range(0, 1)]
+    public float minAlpha;
     [Range(0,1)]
     public float maxAlpha;
     float fadeSpeed;
+
     SpriteRenderer sprite;
 
 
@@ -19,7 +22,7 @@ public class BeatPulse : MonoBehaviour
 
     private void OnBeatChange(int currentNoteValue, string currentNoteName)
     {
-        StartCoroutine(BeatPulseTimer(0, fadeSpeed));
+        StartCoroutine(BeatPulseTimer(minAlpha, fadeSpeed));
     }
 
     // Start is called before the first frame update

@@ -123,6 +123,7 @@ MonoBehaviour:
   playerProjectile: {fileID: 897993932933103306, guid: 71569da76dc2e4547b3ec906378d04a1, type: 3}
   playerHealth: {fileID: 2526976938126785210}
   playerDeathParticle: {fileID: 6801902749505008058, guid: 4cd78af2943da4503ae792f30e92be65, type: 3}
+  godModeStartParticle: {fileID: 6801902749505008058, guid: 4257d63893c02450a87dd2e54398f866, type: 3}
   horizontalMovementSpeed: 1
   verticalMovementSpeed: 0.8
 --- !u!114 &2526976938126785210

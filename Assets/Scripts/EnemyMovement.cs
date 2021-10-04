@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,19 +27,21 @@ public class EnemyMovement : MonoBehaviour
 
     SpriteRenderer enemySpriteRender;
 
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         enemySpawnAudio = GetComponent<FMODUnity.StudioEventEmitter>();
         shakeAnticipation = GetComponent<Animator>();
         enemySpriteRender = GetComponent<SpriteRenderer>();
-        //enemySpriteRender.color = new Color(ColorSetter.instance.redValue, ColorSetter.instance.greenValue, ColorSetter.instance.blueValue);
     }
+
+    
 
     private void Update()
     {
         DestroyEnemy();
+        ChangeColor();
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -47,6 +50,18 @@ public class EnemyMovement : MonoBehaviour
         {
             isEnemyAlive = false;
             DestroyEnemy();
+        }
+    }
+
+    private void ChangeColor()
+    {
+        if (!EnemyManager.goalReached)
+        {
+            enemySpriteRender.color = ColorSetter.instance.GetBaseColor;
+        }
+        else
+        {
+            enemySpriteRender.color = ColorSetter.instance.GetGodModeColor(false);
         }
     }
 
