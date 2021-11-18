@@ -49,19 +49,19 @@ public class EnemyManager : MonoBehaviour
         SetEnemyKillGoal();
     }
 
-    private void OnBeatChange(int currentNoteValue, string currentNoteName)
+    private void OnBeatChange(int currentBeatValue, string currentBeatName)
     {
-        if (currentNoteName == "D" || currentNoteName == "E")
+        if (currentBeatValue == 1 || currentBeatValue == 3)
         {
             InstantiateEnemies();
         }
 
-        if (currentNoteName == "E")
+        if (currentBeatValue == 3)
         {
             ShakeEnemy();
         }
 
-        if (currentNoteName == "D" && readyToMove)
+        if (currentBeatValue == 1 && readyToMove)
         {
             RandomlyMoveEnemies();
         }
@@ -120,7 +120,7 @@ public class EnemyManager : MonoBehaviour
     private void ShakeEnemy()
     {
         float randomChance = Random.Range(0, 10);
-        if (randomChance < 1 && enemyList.Count != 0)
+        if (randomChance < 2 && enemyList.Count != 0)
         {
             readyToMove = true;
 

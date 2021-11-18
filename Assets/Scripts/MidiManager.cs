@@ -124,7 +124,6 @@ public class MidiManager : MonoBehaviour
             {
                 SetNoteValue();
                 OnNoteChange?.Invoke(currentNote, noteList[currentNote]);
-                //Debug.Log(noteList[currentNote]);
                 indexCounter++;
             }
         }

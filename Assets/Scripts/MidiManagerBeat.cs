@@ -8,10 +8,10 @@ public class MidiManagerBeat : MonoBehaviour
     public static MidiManagerBeat instance;
 
     // Delegate for NoteChange event.
-    public delegate void BeatChange(int currentNoteValue, string currentNoteName);
+    public delegate void BeatChange(int currentBeatValue, string currentBeatName);
 
     /// <summary>
-    /// Event used to tell other classes when note in music has changed.
+    /// Event used to tell other classes when beat in music has changed.
     /// Takes int and string parameters from delegate.
     /// </summary>
     public static event BeatChange OnBeatChange;
@@ -35,13 +35,41 @@ public class MidiManagerBeat : MonoBehaviour
     private List<int> timeStamps = new List<int>();
 
     // List that holds all 12 chromatic note possibilities. The index of a note is the value assigned to the currentNote variable.
-    private List<string> noteList = new List<string>(new string[]
-        {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" });
+    private List<string> beatList = new List<string>(new string[]
+        {"C#", "D", "D#", "E", "F" });
 
     // Value that is used to set FMOD parameter.
-    private int currentNote;
+    private int currentBeat;
 
     public float musicTempo;
+
+
+    void Awake()
+    {
+        instance = this;
+        SetInitMidiFileData();
+    }
+
+    void Update()
+    {
+        CheckForBeatChange();
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
+
+
+    /// <summary>
+    /// Function that is called in Start() to get all midi data set and ready for music playback.
+    /// </summary>
+    private void SetInitMidiFileData()
+    {
+        ReadFromFile();
+        GetDataFromMidi();
+        SetTimeStamps(noteArray);
+    }
 
 
     /// <summary>
@@ -80,13 +108,48 @@ public class MidiManagerBeat : MonoBehaviour
 
 
     /// <summary>
-    /// Function that is called in Start() to get all midi data set and ready for music playback.
+    /// Triggers the OnNoteChange event and sets the currentNote value at the time the note plays.
+    /// if/else handles logic for looping music.
     /// </summary>
-    private void SetInitMidiFileData()
+    public void CheckForBeatChange()
     {
-        ReadFromFile();
-        GetDataFromMidi();
-        SetTimeStamps(noteArray);
+        if (GetEventTimelinePosition > previousEventTimelinePosition && indexCounter < timeStamps.Count)
+        {
+            if (timeStamps[indexCounter] <= GetEventTimelinePosition)
+            {
+                SetBeatValue();
+                OnBeatChange?.Invoke(currentBeat, beatList[currentBeat]);
+                indexCounter++;
+            }
+        }
+        else
+        {
+            indexCounter = 0;
+            foreach (var noteTimeStamp in timeStamps)
+            {
+                if (GetEventTimelinePosition >= noteTimeStamp)
+                {
+                    indexCounter++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        previousEventTimelinePosition = GetEventTimelinePosition;
+    }
+
+
+    /// <summary>
+    /// Sets the value of currentNote so that FMOD parameter value can be set and play correct tone.
+    /// </summary>
+    public void SetBeatValue()
+    {
+        string currentBeatString = noteArray[indexCounter].ToString();
+        currentBeatString = currentBeatString.Remove(currentBeatString.Length - 1);
+        currentBeat = beatList.IndexOf(currentBeatString);
     }
 
 
@@ -100,72 +163,5 @@ public class MidiManagerBeat : MonoBehaviour
             musicEvent.EventInstance.getTimelinePosition(out int position);
             return position;
         }
-    }
-
-
-    /// <summary>
-    /// Sets the value of currentNote so that FMOD parameter value can be set and play correct tone.
-    /// </summary>
-    public void SetNoteValue()
-    {
-        string currentNoteString = noteArray[indexCounter].ToString();
-        currentNoteString = currentNoteString.Remove(currentNoteString.Length - 1);
-        currentNote = noteList.IndexOf(currentNoteString);
-    }
-
-
-    /// <summary>
-    /// Triggers the OnNoteChange event and sets the currentNote value at the time the note plays.
-    /// if/else handles logic for looping music.
-    /// </summary>
-    public void ChangeBeat()
-    {
-        if (GetEventTimelinePosition > previousEventTimelinePosition && indexCounter < timeStamps.Count) // add this if calling function manually: && timeStamps[noteArrayIndex + 1] >= GetEventTimelinePosition
-        {
-            if (timeStamps[indexCounter] <= GetEventTimelinePosition)
-            {
-                SetNoteValue();
-                OnBeatChange?.Invoke(currentNote, noteList[currentNote]);
-                //Debug.Log(noteList[currentNote]);
-                indexCounter++;
-            }
-        }
-        
-        
-        else
-        {
-            indexCounter = 0;          
-            foreach (var noteTimeStamp in timeStamps)
-            {
-                if (GetEventTimelinePosition >= noteTimeStamp)
-                {
-                    indexCounter++;
-                }
-                else
-                {
-                    break;
-                }
-            }
-        }
-        
-
-        previousEventTimelinePosition = GetEventTimelinePosition;
-    }
-
-
-    void Awake()
-    {
-        instance = this;
-        SetInitMidiFileData();
-    }
-
-    void Update()
-    {
-        ChangeBeat();
-    }
-
-    private void OnDestroy()
-    {
-        StopAllCoroutines();
     }
 }
